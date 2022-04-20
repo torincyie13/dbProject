@@ -1,0 +1,12 @@
+C:\Users\thawkins022713\source\repos\dbProject\dbProject\bin\Debug\ClutchDB.mdf
+C:\Users\thawkins022713\source\repos\dbProject\dbProject\bin\Debug\ClutchDB_log.ldf
+C:\Users\thawkins022713\source\repos\dbProject\dbProject\bin\Debug\dbProject.exe.config
+C:\Users\thawkins022713\source\repos\dbProject\dbProject\bin\Debug\dbProject.exe
+C:\Users\thawkins022713\source\repos\dbProject\dbProject\bin\Debug\dbProject.pdb
+C:\Users\thawkins022713\source\repos\dbProject\dbProject\obj\Debug\dbProject.csproj.AssemblyReference.cache
+C:\Users\thawkins022713\source\repos\dbProject\dbProject\obj\Debug\dbProject.Form1.resources
+C:\Users\thawkins022713\source\repos\dbProject\dbProject\obj\Debug\dbProject.Properties.Resources.resources
+C:\Users\thawkins022713\source\repos\dbProject\dbProject\obj\Debug\dbProject.csproj.GenerateResource.cache
+C:\Users\thawkins022713\source\repos\dbProject\dbProject\obj\Debug\dbProject.csproj.CoreCompileInputs.cache
+C:\Users\thawkins022713\source\repos\dbProject\dbProject\obj\Debug\dbProject.exe
+C:\Users\thawkins022713\source\repos\dbProject\dbProject\obj\Debug\dbProject.pdb
