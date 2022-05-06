@@ -52,6 +52,9 @@
             this.tableAdapterManager = new dbProject.ClutchDBDataSetTableAdapters.TableAdapterManager();
             this.btnViewAll = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
+            this.btnPrint = new System.Windows.Forms.Button();
+            this.dlgPreview = new System.Windows.Forms.PrintDialog();
+            this.btnAdd = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.clutchDBDataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.membersBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -244,11 +247,37 @@
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
+            // btnPrint
+            // 
+            this.btnPrint.Location = new System.Drawing.Point(188, 287);
+            this.btnPrint.Name = "btnPrint";
+            this.btnPrint.Size = new System.Drawing.Size(75, 23);
+            this.btnPrint.TabIndex = 19;
+            this.btnPrint.Text = "Print";
+            this.btnPrint.UseVisualStyleBackColor = true;
+            this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
+            // 
+            // dlgPreview
+            // 
+            this.dlgPreview.UseEXDialog = true;
+            // 
+            // btnAdd
+            // 
+            this.btnAdd.Location = new System.Drawing.Point(295, 287);
+            this.btnAdd.Name = "btnAdd";
+            this.btnAdd.Size = new System.Drawing.Size(75, 23);
+            this.btnAdd.TabIndex = 20;
+            this.btnAdd.Text = "Add Member";
+            this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(556, 322);
+            this.Controls.Add(this.btnAdd);
+            this.Controls.Add(this.btnPrint);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnViewAll);
             this.Controls.Add(this.btnLast);
@@ -304,6 +333,9 @@
         private System.Windows.Forms.Button btnLast;
         private System.Windows.Forms.Button btnViewAll;
         private System.Windows.Forms.Button btnExit;
+        private System.Windows.Forms.Button btnPrint;
+        private System.Windows.Forms.PrintDialog dlgPreview;
+        private System.Windows.Forms.Button btnAdd;
     }
 }
 

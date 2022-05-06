@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.Data.Sql;
 using System.Data.SqlClient;
 using System.IO;
+using System.Drawing.Printing;
 
 namespace dbProject
 {
@@ -103,6 +104,74 @@ namespace dbProject
         private void btnExit_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void btnPrint_Click(object sender, EventArgs e)
+        {
+            // Declaring document
+            PrintDocument recordDocument;
+            // Create the document and name it
+            recordDocument = new PrintDocument();
+            recordDocument.DocumentName = "Member Info";
+            // Add code handler
+            recordDocument.PrintPage += new PrintPageEventHandler(this.PrintRecord);
+            dlgPreview.Document = recordDocument;
+            dlgPreview.ShowDialog();
+            // Print document
+            recordDocument.Print();
+            // dispose of document
+            recordDocument.Dispose();
+        }
+
+        private void PrintRecord (object sender, PrintPageEventArgs e)
+        {
+            // print graphic and heading ( 1 inch in height)
+            Pen myPen = new Pen(Color.Black, 3);
+            e.Graphics.DrawRectangle(myPen, e.MarginBounds.Left, e.MarginBounds.Top, e.MarginBounds.Width, 100);
+            // print heading
+            string s = "Members Info";
+            Font myFont = new Font("Rockwell", 24, FontStyle.Bold);
+            SizeF sSize = e.Graphics.MeasureString(s, myFont);
+            e.Graphics.DrawString(s, myFont, Brushes.Black, e.MarginBounds.Left + 100 +
+                Convert.ToInt32(0.5 * (e.MarginBounds.Width - 100 - sSize.Width)),
+                e.MarginBounds.Top + Convert.ToInt32(0.5 * (100 - sSize.Height)));
+            myFont = new Font("Rockwell", 12, FontStyle.Regular);
+            int y = 300;
+            int dy = Convert.ToInt32(e.Graphics.MeasureString("S",
+                myFont).Height);
+            // print first name
+            e.Graphics.DrawString("First Name: " + txtFirstName.Text, myFont,
+                Brushes.Black, e.MarginBounds.Left, y);
+            y += 2 * dy;
+            // print last name
+            e.Graphics.DrawString("Last Name: " + txtLastName.Text, myFont,
+                Brushes.Black, e.MarginBounds.Left, y);
+            y += 2 * dy;
+            // print age
+            e.Graphics.DrawString("Age: " + txtAge.Text, myFont,
+                Brushes.Black, e.MarginBounds.Left, y);
+            y += 2 * dy;
+            // print gender
+            e.Graphics.DrawString("Gender: " + txtGender.Text, myFont,
+                Brushes.Black, e.MarginBounds.Left, y);
+            y += 2 * dy;
+            // print email
+            e.Graphics.DrawString("Email: " + txtEmail.Text, myFont,
+                Brushes.Black, e.MarginBounds.Left, y);
+            y += 2 * dy;
+            // print phone
+            e.Graphics.DrawString("Phone #: " + txtPhone.Text, myFont,
+                Brushes.Black, e.MarginBounds.Left, y);
+            y += 2 * dy;
+            e.HasMorePages = false;
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            // instantiates form 3
+            Form3 f3 = new Form3();
+            // Shows Form2
+            f3.Show();
         }
     }
 }

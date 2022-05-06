@@ -32,9 +32,9 @@ namespace dbProject {
         
         private View_1DataTable tableView_1;
         
-        private global::System.Data.DataRelation relationFK_Bookings_Members;
-        
         private global::System.Data.DataRelation relationFK_Bookings_Services;
+        
+        private global::System.Data.DataRelation relationMembers_Bookings;
         
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
@@ -270,8 +270,8 @@ namespace dbProject {
                     this.tableView_1.InitVars();
                 }
             }
-            this.relationFK_Bookings_Members = this.Relations["FK_Bookings_Members"];
             this.relationFK_Bookings_Services = this.Relations["FK_Bookings_Services"];
+            this.relationMembers_Bookings = this.Relations["Members_Bookings"];
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -290,14 +290,14 @@ namespace dbProject {
             base.Tables.Add(this.tableServices);
             this.tableView_1 = new View_1DataTable();
             base.Tables.Add(this.tableView_1);
-            this.relationFK_Bookings_Members = new global::System.Data.DataRelation("FK_Bookings_Members", new global::System.Data.DataColumn[] {
-                        this.tableMembers.MemberIDColumn}, new global::System.Data.DataColumn[] {
-                        this.tableBookings.MemberIDColumn}, false);
-            this.Relations.Add(this.relationFK_Bookings_Members);
             this.relationFK_Bookings_Services = new global::System.Data.DataRelation("FK_Bookings_Services", new global::System.Data.DataColumn[] {
                         this.tableServices.ServiceTypeColumn}, new global::System.Data.DataColumn[] {
                         this.tableBookings.ServiceTypeColumn}, false);
             this.Relations.Add(this.relationFK_Bookings_Services);
+            this.relationMembers_Bookings = new global::System.Data.DataRelation("Members_Bookings", new global::System.Data.DataColumn[] {
+                        this.tableMembers.MemberIDColumn}, new global::System.Data.DataColumn[] {
+                        this.tableBookings.MemberIDColumn}, false);
+            this.Relations.Add(this.relationMembers_Bookings);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -508,7 +508,7 @@ namespace dbProject {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public BookingsRow AddBookingsRow(string BookingID, ServicesRow parentServicesRowByFK_Bookings_Services, MembersRow parentMembersRowByFK_Bookings_Members, System.DateTime BookingDateTime) {
+            public BookingsRow AddBookingsRow(string BookingID, ServicesRow parentServicesRowByFK_Bookings_Services, System.DateTime BookingDateTime) {
                 BookingsRow rowBookingsRow = ((BookingsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         BookingID,
@@ -517,9 +517,6 @@ namespace dbProject {
                         BookingDateTime};
                 if ((parentServicesRowByFK_Bookings_Services != null)) {
                     columnValuesArray[1] = parentServicesRowByFK_Bookings_Services[0];
-                }
-                if ((parentMembersRowByFK_Bookings_Members != null)) {
-                    columnValuesArray[2] = parentMembersRowByFK_Bookings_Members[0];
                 }
                 rowBookingsRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowBookingsRow);
@@ -563,7 +560,7 @@ namespace dbProject {
                 base.Columns.Add(this.columnBookingID);
                 this.columnServiceType = new global::System.Data.DataColumn("ServiceType", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnServiceType);
-                this.columnMemberID = new global::System.Data.DataColumn("MemberID", typeof(string), null, global::System.Data.MappingType.Element);
+                this.columnMemberID = new global::System.Data.DataColumn("MemberID", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnMemberID);
                 this.columnBookingDateTime = new global::System.Data.DataColumn("BookingDateTime", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnBookingDateTime);
@@ -574,8 +571,10 @@ namespace dbProject {
                 this.columnBookingID.MaxLength = 50;
                 this.columnServiceType.AllowDBNull = false;
                 this.columnServiceType.MaxLength = 50;
+                this.columnMemberID.AutoIncrement = true;
+                this.columnMemberID.AutoIncrementSeed = -1;
+                this.columnMemberID.AutoIncrementStep = -1;
                 this.columnMemberID.AllowDBNull = false;
-                this.columnMemberID.MaxLength = 50;
                 this.columnBookingDateTime.AllowDBNull = false;
             }
             
@@ -860,10 +859,10 @@ namespace dbProject {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public MembersRow AddMembersRow(string MemberID, string MemberFName, string MemberLName, string MemberEmail, string MemberPassword, int MemberAge, string MemberGender, string MemberPhone) {
+            public MembersRow AddMembersRow(string MemberFName, string MemberLName, string MemberEmail, string MemberPassword, int MemberAge, string MemberGender, string MemberPhone) {
                 MembersRow rowMembersRow = ((MembersRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
-                        MemberID,
+                        null,
                         MemberFName,
                         MemberLName,
                         MemberEmail,
@@ -878,7 +877,7 @@ namespace dbProject {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public MembersRow FindByMemberID(string MemberID) {
+            public MembersRow FindByMemberID(int MemberID) {
                 return ((MembersRow)(this.Rows.Find(new object[] {
                             MemberID})));
             }
@@ -913,7 +912,7 @@ namespace dbProject {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             private void InitClass() {
-                this.columnMemberID = new global::System.Data.DataColumn("MemberID", typeof(string), null, global::System.Data.MappingType.Element);
+                this.columnMemberID = new global::System.Data.DataColumn("MemberID", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnMemberID);
                 this.columnMemberFName = new global::System.Data.DataColumn("MemberFName", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnMemberFName);
@@ -931,9 +930,11 @@ namespace dbProject {
                 base.Columns.Add(this.columnMemberPhone);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnMemberID}, true));
+                this.columnMemberID.AutoIncrement = true;
+                this.columnMemberID.AutoIncrementSeed = -1;
+                this.columnMemberID.AutoIncrementStep = -1;
                 this.columnMemberID.AllowDBNull = false;
                 this.columnMemberID.Unique = true;
-                this.columnMemberID.MaxLength = 50;
                 this.columnMemberFName.AllowDBNull = false;
                 this.columnMemberFName.MaxLength = 50;
                 this.columnMemberLName.AllowDBNull = false;
@@ -944,7 +945,6 @@ namespace dbProject {
                 this.columnMemberPassword.MaxLength = 50;
                 this.columnMemberAge.AllowDBNull = false;
                 this.columnMemberGender.MaxLength = 50;
-                this.columnMemberPhone.AllowDBNull = false;
                 this.columnMemberPhone.MaxLength = 50;
             }
             
@@ -1518,10 +1518,10 @@ namespace dbProject {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public View_1Row AddView_1Row(string MemberID, string MemberFName, string MemberLName, string MemberEmail, string MemberPassword, int MemberAge, string MemberGender, string MemberPhone) {
+            public View_1Row AddView_1Row(string MemberFName, string MemberLName, string MemberEmail, string MemberPassword, int MemberAge, string MemberGender, string MemberPhone) {
                 View_1Row rowView_1Row = ((View_1Row)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
-                        MemberID,
+                        null,
                         MemberFName,
                         MemberLName,
                         MemberEmail,
@@ -1536,7 +1536,7 @@ namespace dbProject {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public View_1Row FindByMemberID(string MemberID) {
+            public View_1Row FindByMemberID(int MemberID) {
                 return ((View_1Row)(this.Rows.Find(new object[] {
                             MemberID})));
             }
@@ -1571,7 +1571,7 @@ namespace dbProject {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             private void InitClass() {
-                this.columnMemberID = new global::System.Data.DataColumn("MemberID", typeof(string), null, global::System.Data.MappingType.Element);
+                this.columnMemberID = new global::System.Data.DataColumn("MemberID", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnMemberID);
                 this.columnMemberFName = new global::System.Data.DataColumn("MemberFName", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnMemberFName);
@@ -1589,9 +1589,11 @@ namespace dbProject {
                 base.Columns.Add(this.columnMemberPhone);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnMemberID}, true));
+                this.columnMemberID.AutoIncrement = true;
+                this.columnMemberID.AutoIncrementSeed = -1;
+                this.columnMemberID.AutoIncrementStep = -1;
                 this.columnMemberID.AllowDBNull = false;
                 this.columnMemberID.Unique = true;
-                this.columnMemberID.MaxLength = 50;
                 this.columnMemberFName.AllowDBNull = false;
                 this.columnMemberFName.MaxLength = 50;
                 this.columnMemberLName.AllowDBNull = false;
@@ -1768,9 +1770,9 @@ namespace dbProject {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public string MemberID {
+            public int MemberID {
                 get {
-                    return ((string)(this[this.tableBookings.MemberIDColumn]));
+                    return ((int)(this[this.tableBookings.MemberIDColumn]));
                 }
                 set {
                     this[this.tableBookings.MemberIDColumn] = value;
@@ -1790,23 +1792,23 @@ namespace dbProject {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public MembersRow MembersRow {
-                get {
-                    return ((MembersRow)(this.GetParentRow(this.Table.ParentRelations["FK_Bookings_Members"])));
-                }
-                set {
-                    this.SetParentRow(value, this.Table.ParentRelations["FK_Bookings_Members"]);
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public ServicesRow ServicesRow {
                 get {
                     return ((ServicesRow)(this.GetParentRow(this.Table.ParentRelations["FK_Bookings_Services"])));
                 }
                 set {
                     this.SetParentRow(value, this.Table.ParentRelations["FK_Bookings_Services"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public MembersRow MembersRow {
+                get {
+                    return ((MembersRow)(this.GetParentRow(this.Table.ParentRelations["Members_Bookings"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["Members_Bookings"]);
                 }
             }
         }
@@ -1827,9 +1829,9 @@ namespace dbProject {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public string MemberID {
+            public int MemberID {
                 get {
-                    return ((string)(this[this.tableMembers.MemberIDColumn]));
+                    return ((int)(this[this.tableMembers.MemberIDColumn]));
                 }
                 set {
                     this[this.tableMembers.MemberIDColumn] = value;
@@ -1911,7 +1913,12 @@ namespace dbProject {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public string MemberPhone {
                 get {
-                    return ((string)(this[this.tableMembers.MemberPhoneColumn]));
+                    try {
+                        return ((string)(this[this.tableMembers.MemberPhoneColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'MemberPhone\' in table \'Members\' is DBNull.", e);
+                    }
                 }
                 set {
                     this[this.tableMembers.MemberPhoneColumn] = value;
@@ -1932,12 +1939,24 @@ namespace dbProject {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsMemberPhoneNull() {
+                return this.IsNull(this.tableMembers.MemberPhoneColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetMemberPhoneNull() {
+                this[this.tableMembers.MemberPhoneColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public BookingsRow[] GetBookingsRows() {
-                if ((this.Table.ChildRelations["FK_Bookings_Members"] == null)) {
+                if ((this.Table.ChildRelations["Members_Bookings"] == null)) {
                     return new BookingsRow[0];
                 }
                 else {
-                    return ((BookingsRow[])(base.GetChildRows(this.Table.ChildRelations["FK_Bookings_Members"])));
+                    return ((BookingsRow[])(base.GetChildRows(this.Table.ChildRelations["Members_Bookings"])));
                 }
             }
         }
@@ -2017,9 +2036,9 @@ namespace dbProject {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public string MemberID {
+            public int MemberID {
                 get {
-                    return ((string)(this[this.tableView_1.MemberIDColumn]));
+                    return ((int)(this[this.tableView_1.MemberIDColumn]));
                 }
                 set {
                     this[this.tableView_1.MemberIDColumn] = value;
@@ -2937,7 +2956,7 @@ SELECT MemberID, MemberFName, MemberLName, MemberEmail, MemberPassword, MemberAg
                 this.Adapter.DeleteCommand.Parameters[7].Value = ((string)(Original_MemberGender));
             }
             if ((Original_MemberPhone == null)) {
-                throw new global::System.ArgumentNullException("Original_MemberPhone");
+                this.Adapter.DeleteCommand.Parameters[8].Value = global::System.DBNull.Value;
             }
             else {
                 this.Adapter.DeleteCommand.Parameters[8].Value = ((string)(Original_MemberPhone));
@@ -3001,7 +3020,7 @@ SELECT MemberID, MemberFName, MemberLName, MemberEmail, MemberPassword, MemberAg
                 this.Adapter.InsertCommand.Parameters[6].Value = ((string)(MemberGender));
             }
             if ((MemberPhone == null)) {
-                throw new global::System.ArgumentNullException("MemberPhone");
+                this.Adapter.InsertCommand.Parameters[7].Value = global::System.DBNull.Value;
             }
             else {
                 this.Adapter.InsertCommand.Parameters[7].Value = ((string)(MemberPhone));
@@ -3081,7 +3100,7 @@ SELECT MemberID, MemberFName, MemberLName, MemberEmail, MemberPassword, MemberAg
                 this.Adapter.UpdateCommand.Parameters[6].Value = ((string)(MemberGender));
             }
             if ((MemberPhone == null)) {
-                throw new global::System.ArgumentNullException("MemberPhone");
+                this.Adapter.UpdateCommand.Parameters[7].Value = global::System.DBNull.Value;
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[7].Value = ((string)(MemberPhone));
@@ -3126,7 +3145,7 @@ SELECT MemberID, MemberFName, MemberLName, MemberEmail, MemberPassword, MemberAg
                 this.Adapter.UpdateCommand.Parameters[15].Value = ((string)(Original_MemberGender));
             }
             if ((Original_MemberPhone == null)) {
-                throw new global::System.ArgumentNullException("Original_MemberPhone");
+                this.Adapter.UpdateCommand.Parameters[16].Value = global::System.DBNull.Value;
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[16].Value = ((string)(Original_MemberPhone));
